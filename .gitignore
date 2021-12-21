@@ -150,3 +150,36 @@ static/
 yatube/posts/static/
 yatube/media/
 
+# Static derictory
+static/
+.static
+./ststic
+./static/
+STATIC/
+
+#visual c settings
+/.vscode
+.vscode
+.vscode/
+
+#PyCharm settings
+/.idea
+.idea
+.idea/
+
+#sent emails
+#sent_emails/
+
+#coverage
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover 
+
+#media
+media/
+.media
+./media
+./media/
+./MEDIA/

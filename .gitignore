@@ -150,16 +150,6 @@ static/
 yatube/posts/static/
 yatube/media/
 
-# visual c settings
-/.vscode
-.vscode
-.vscode/
-
-# PyCharm settings
-/.idea
-.idea
-.idea/
-
 # sent emails
 # sent_emails/
 

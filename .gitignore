@@ -149,4 +149,34 @@ dmypy.json
 static/
 yatube/posts/static/
 yatube/media/
+static/
+.static
+./ststic
+./static/
+STATIC/
+# media
+media/
+.media
+./media
+./media/
+./MEDIA/
 
+# visual c settings
+/.vscode
+.vscode
+.vscode/
+
+# PyCharm settings
+/.idea
+.idea
+.idea/
+
+# sent emails
+# sent_emails/
+
+# coverage
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover 

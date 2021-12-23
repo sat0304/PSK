@@ -111,7 +111,11 @@ def post_edit(request, post_id):
     if post.author == request.user:
         is_edit = True
         if request.method == 'POST':
-            form = PostForm(request.POST, instance=post)
+            form = PostForm(
+                request.POST,
+                instance=post,
+                files=request.FILES or None
+            )
             if form.is_valid():
                 post1 = form.save(commit=False)
                 post1.author = request.user

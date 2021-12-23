@@ -20,7 +20,7 @@ SECRET_KEY = 'zezb)8y%bik%u71pes!j#^5l(@g7o0b4y*jx#a4uwjcm!51ex7'
 """SECURITY WARNING: don't run with debug turned on in production!."""
 DEBUG = True
 
-ALLOWED_HOSTS = ['testserver', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['testserver', '127.0.0.1', 'localhost', '[::1]',]
 
 """Application definition."""
 
@@ -34,7 +34,8 @@ INSTALLED_APPS = [
     'posts.apps.PostsConfig',
     'users.apps.UsersConfig',
     'core.apps.CoreConfig',
-    'about.apps.AboutConfig'
+    'about.apps.AboutConfig',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -116,6 +117,8 @@ USE_TZ = True
 https://docs.djangoproject.com/en/2.2/howto/static-files/."""
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 HOME_PAGE = '/'
 POSTS = '/posts/'
 GROUP = '/group/'

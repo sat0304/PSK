@@ -12,7 +12,7 @@
                 {% endif %}            
               </div> 
               {% if not is_edit %} 
-        <form action="/create/" method="POST">
+        <form action="/create/" method="POST" enctype="multipart/form-data">
             {% csrf_token %}<br>
             {{ form.text.label }}<br>
             {{ form.text|linebreaks }}
@@ -20,18 +20,24 @@
             {{ form.group.label }}<br>
             {{ form.group|linebreaks }}
             <br><br>
+            {{ form.image.label }}<br>
+            {{ form.image }}
+            <br><br>
             <button type="submit" class="btn btn-primary">
                   Сохранить
             </button>
         </form>
         {% else %}
-        <form action="{% url 'posts:post_edit' post_id %}" method="POST">
+        <form action="{% url 'posts:post_edit' post_id %}" method="POST" enctype="multipart/form-data">
           {% csrf_token %}<br>
           {{ form.text.label }}<br>
           {{ form.text|linebreaks }}
           <br><br>
           {{ form.group.label }}<br>
           {{ form.group|linebreaks }}
+          <br><br>
+          {{ form.image.label }}<br>
+          {{ form.image }}
           <br><br>
           <button type="submit" class="btn btn-primary">
                 Добавить

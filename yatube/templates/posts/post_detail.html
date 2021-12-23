@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load thumbnail %}
 {% block title %}
 <title>{{ title_post }} {{ post.text|truncatechars:30 }}</title>
 {% endblock title %}
@@ -34,12 +35,15 @@
       </ul>
     </aside>
     <article class="col-12 col-md-9">
+      {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
+        <img class="card-img my-2" src="{{ im.url }}">
+      {% endthumbnail %}
       <p>
         {{ post }}
       </p>
       <a class="btn btn-primary" href="../{{ post.id }}/edit">
         редактировать запись
-      </a>   
+      </a>
     </article>
   </div>   
 </div>

@@ -83,7 +83,10 @@ def post_detail(request, post_id):
 def post_create(request):
     """Страница создания записи."""
     template5 = 'posts/create_post.html'
-    form = PostForm(request.POST or None)
+    form = PostForm(
+        request.POST or None, 
+        files=request.FILES or None
+    )
     if request.method == 'POST':
         if form.is_valid():
             form = form.save(False)

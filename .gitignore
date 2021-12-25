@@ -145,20 +145,25 @@ dmypy.json
 
 .mypy_cache
 
-# папки со статикой и медиа
-static/
-yatube/posts/static/
-yatube/media/
-
 # sent emails
 # sent_emails/
 
+# папки со статикой и медиа
 # Static derictory
+yatube/posts/static/
 static/
 .static
 ./ststic
 ./static/
 STATIC/
+
+#media
+yatube/media/
+media/
+.media
+./media
+./media/
+./MEDIA/
 
 #visual c settings
 /.vscode
@@ -179,10 +184,3 @@ htmlcov/
 .coverage.*
 coverage.xml
 *.cover 
-
-#media
-media/
-.media
-./media
-./media/
-./MEDIA/

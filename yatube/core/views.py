@@ -45,5 +45,6 @@ def permission_denied(request, exception):
     return render(
         request,
         template,
+        context,
         status=HTTPStatus.FORBIDDEN
     )

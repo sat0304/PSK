@@ -31,10 +31,10 @@ class AboutPagesTests(TestCase):
         self.authorized_author.force_login(self.auth)
 
     def test_about_guest_uses_correct_template(self):
-        """URL-адрес использует соответствующий шаблон."""
+        """Гость: URL-адрес использует соответствующий шаблон."""
         templates_page_names = {
             'core/404.html':
-                HTTPStatus.NOT_FOUND,
+                HTTPStatus.NOT_FOUND,    
         }
         for template, reverse_name in templates_page_names.items():
             with self.subTest(template=template):
@@ -42,7 +42,8 @@ class AboutPagesTests(TestCase):
                 self.assertTemplateUsed(response, template)
 
     def test_about_registered_uses_correct_template(self):
-        """URL-адрес использует соответствующий шаблон."""
+        """Зарегистрированный пользователь:
+        URL-адрес использует соответствующий шаблон."""
         templates_page_names = {
             'core/404.html':
                 HTTPStatus.NOT_FOUND,
@@ -53,7 +54,7 @@ class AboutPagesTests(TestCase):
                 self.assertTemplateUsed(response, template)
 
     def test_about_author_uses_correct_template(self):
-        """URL-адрес использует соответствующий шаблон."""
+        """Автор: URL-адрес использует соответствующий шаблон."""
         templates_page_names = {
             'core/404.html':
                 HTTPStatus.NOT_FOUND,

@@ -11,9 +11,5 @@ class StaticURLTests(TestCase):
         self.guest_client = Client()
 
     def test_404(self):
-        response = self.guest_client.get('/404.html/')
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-
-    def test_403(self):
-        response = self.guest_client.get('/403.html/')
-        self.assertEqual(response.status_code, HTTPStatus.OK)
+        response = self.guest_client.get('/nonexist-page/')
+        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)

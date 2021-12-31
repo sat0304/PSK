@@ -55,14 +55,38 @@ class PostCreateFormTests(TestCase):
     def setUp(self):
         self.authorized_client.force_login(self.user)
 
-    def test_index_page_context_contains_image(self):
-        """Шаблон index сформирован с правильным контекстом."""
+    def test_post_creation_form(self):
+        """Проверяем, что при отправке валидной формы создается новая запись в БД
+        и происходт редирект."""
+        post_count = Post.objects.count()
         response = self.authorized_client.post(
             reverse('posts:post_create'),
             data=self.form_data,
             follow=True,
         )
-        response = self.authorized_client.get(reverse('posts:index'))
-        test_slug = response.context['page_obj'].object_list[0]
-        index_img = test_slug.image
-        self.assertEqual(index_img.name, f'posts/{self.uploaded.name}')
+        post = Post.objects.order_by('pk').last()
+        self.assertRedirects(response, reverse(
+            'posts:profile', args=[self.user.username])
+        )
+        image_content = open(
+            f'{TEMP_MEDIA_ROOT}/{post.image.name}',
+            'rb'
+        ).read()
+        self.post.refresh_from_db()
+        self.assertEqual(Post.objects.count(), post_count + 1)
+        self.assertEqual(
+            post.text, self.form_data['text']
+        )
+        self.assertEqual(
+            post.group.pk, self.form_data['group']
+        )
+        self.assertEqual(
+            image_content, self.small_gif
+        )
+        self.assertTrue(
+            Post.objects.filter(
+                group=self.group.pk,
+                text='Тестовый_текст_1',
+                image='posts/small.gif'
+            )
+        )

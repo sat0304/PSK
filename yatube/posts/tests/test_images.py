@@ -23,12 +23,7 @@ class PostCreateFormTests(TestCase):
             slug='test-slug',
             description='Тестовое описание',
         )
-        cls.post = Post.objects.create(
-            author=cls.user,
-            text='Тестовый текст',
-            group=cls.group,
-        )
-        cls.small_gif = (            
+        cls.small_gif = (
              b'\x47\x49\x46\x38\x39\x61\x02\x00'
              b'\x01\x00\x80\x00\x00\x00\x00\x00'
              b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
@@ -41,28 +36,60 @@ class PostCreateFormTests(TestCase):
             content=cls.small_gif,
             content_type='image/gif'
         )
-        cls.form_data = {
-            'text': 'Тестовый_текст_1',
-            'group': cls.group.pk,
-            'image': cls.uploaded,
-        }
-        
+        cls.post = Post.objects.create(
+            author=cls.user,
+            text='Тестовый текст',
+            group=cls.group,
+            image=cls.uploaded,
+        )
+
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
-        
+
     def setUp(self):
         self.authorized_client.force_login(self.user)
 
     def test_index_page_context_contains_image(self):
         """Шаблон index сформирован с правильным контекстом."""
-        response = self.authorized_client.post(
-            reverse('posts:post_create'),
-            data=self.form_data,
-            follow=True,
-        )
         response = self.authorized_client.get(reverse('posts:index'))
         test_slug = response.context['page_obj'].object_list[0]
+        index_img = test_slug.image
+        self.assertEqual(index_img.name, f'posts/{self.uploaded.name}')
+
+    def test_group_list_context_contains_image(self):
+        """Шаблон group_list сформирован с правильным контекстом."""
+        response = self.authorized_client.get(
+            reverse(
+                'posts:group_list',
+                kwargs={'slug': self.group.slug}
+            )
+        )
+        test_slug = response.context['page_obj'].object_list[0]
+        index_img = test_slug.image
+        self.assertEqual(index_img.name, f'posts/{self.uploaded.name}')
+
+    def test_profile_page_context_contains_image(self):
+        """Шаблон profile сформирован с правильным контекстом."""
+        response = self.authorized_client.get(
+            reverse(
+                'posts:profile',
+                kwargs={'username': self.post.author}
+            )
+        )
+        test_slug = response.context['page_obj'].object_list[0]
+        index_img = test_slug.image
+        self.assertEqual(index_img.name, f'posts/{self.uploaded.name}')
+
+    def test_post_detail_page_context_contains_image(self):
+        """Шаблон post_detail сформирован с правильным контекстом."""
+        response = self.authorized_client.get(
+            reverse(
+                'posts:post_detail',
+                    kwargs={'post_id': self.post.pk}
+            )
+        )
+        test_slug = response.context['post']
         index_img = test_slug.image
         self.assertEqual(index_img.name, f'posts/{self.uploaded.name}')

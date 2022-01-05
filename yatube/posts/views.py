@@ -5,8 +5,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 
-from .models import Group, Post, User
-from .forms import PostForm
+from .models import Comment, Group, Post, User
+from .forms import CommentForm, PostForm
 
 
 def index(request):
@@ -70,10 +70,16 @@ def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     author = post.author
     post_count = Post.objects.filter(author=author).count()
+    author_posts_count = post.author.posts.count()
+    comments = post.comments.all()
+    form = CommentForm(request.POST)
     context = {
         'author': author,
         'post_count': post_count,
         'post': post,
+        'comments': comments,
+        'author_posts_count': author_posts_count,
+        'form': form,
         'title_post': 'Пост '
     }
     return render(request, template4, context)
@@ -146,3 +152,21 @@ def post_edit(request, post_id):
         )
     else:
         return redirect(template6, post_id)
+
+@login_required
+def add_comment(request, post_id):
+    """Страница поста с комментариями."""
+    template7 = 'posts:post_detail'
+    post = get_object_or_404(Post, pk=post_id)
+    form = CommentForm(request.POST or None)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.author = request.user
+        comment.post = post
+        comment.save()
+        return redirect(template7, post_id=post_id)
+    context = {
+        'post': post,
+        'form': form,
+    }
+    return render(request, template7, context)

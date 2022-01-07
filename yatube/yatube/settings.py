@@ -23,6 +23,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['testserver', '127.0.0.1', 'localhost', '[::1]',]
 
+"""Cash configuration"""
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'TIMEOUT': 20,
+        'KEY_PREFIX': 'index_page',
+    }
+}
+
+
 """Application definition."""
 
 INSTALLED_APPS = [

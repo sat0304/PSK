@@ -1,6 +1,7 @@
 import shutil
 import tempfile
 
+from django.core.cache import cache
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -47,6 +48,7 @@ class PostCreateFormTests(TestCase):
     def tearDownClass(cls):
         super().tearDownClass()
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
+        cache.clear()
 
     def setUp(self):
         self.authorized_client.force_login(self.user)

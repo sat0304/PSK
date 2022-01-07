@@ -1,11 +1,20 @@
+import shutil
+import tempfile
+
 from http import HTTPStatus
 
-from django.test import Client, TestCase
+from django.core.cache import cache
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.conf import settings
+from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from posts.models import Group, Post, User
 
+TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 
+
+@override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
 class PostCreateFormTests(TestCase):
     """ Тест использования форм для создания постов."""
     @classmethod
@@ -23,6 +32,12 @@ class PostCreateFormTests(TestCase):
             text='Тестовый текст',
             group=cls.group,
         )
+
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
+        shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
+        cache.clear()
 
     def setUp(self):
         self.authorized_author.force_login(self.auth)

@@ -1,8 +1,20 @@
-from django.test import TestCase
+import shutil
+import tempfile
 
-from ..models import Group, Post, User
+from http import HTTPStatus
+
+from django.core.cache import cache
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.conf import settings
+from django.test import Client, TestCase, override_settings
+from django.urls import reverse
+
+from posts.models import Group, Post, User
+
+TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 
 
+@override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
 class PostModelTest(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -17,6 +29,12 @@ class PostModelTest(TestCase):
             author=cls.user,
             text='Тестовый_текст',
         )
+
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
+        shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
+        cache.clear()
 
     def test_models_have_correct_object_names(self):
         """Проверяем, что у моделей корректно работает __str__."""

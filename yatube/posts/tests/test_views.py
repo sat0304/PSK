@@ -1,12 +1,21 @@
+import shutil
+import tempfile
+
 from http import HTTPStatus
 
-from django.test import Client, TestCase
+from django.core.cache import cache
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.conf import settings
+from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from django import forms
 
 from posts.models import Group, Post, User
 
+TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 
+
+@override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
 class PostPagesTests(TestCase):
     """ Тест страниц сайта."""
     @classmethod
@@ -36,7 +45,14 @@ class PostPagesTests(TestCase):
             group=cls.group1,
         )
 
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
+        cache.clear()
+        shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
+
     def setUp(self):
+        cache.clear()
         self.authorized_client = Client()
         self.authorized_author = Client()
         self.authorized_client.force_login(self.user)
@@ -210,6 +226,7 @@ class PostPagesTests(TestCase):
             self.assertTrue(self.post1.group != self.group)
 
 
+@override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
 class PaginatorViewsTest(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -226,6 +243,12 @@ class PaginatorViewsTest(TestCase):
                 text=f'Тестовый_текст{i}',
                 group=cls.group,
             )
+
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
+        shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
+        cache.clear()
 
     def setUp(self):
         self.authorized_author = Client()

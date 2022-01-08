@@ -76,16 +76,12 @@ def post_detail(request, post_id):
     template4 = 'posts/post_detail.html'
     post = get_object_or_404(Post, id=post_id)
     author = post.author
-    post_count = Post.objects.filter(author=author).count()
-    author_posts_count = post.author.posts.count()
     comments = post.comments.all()
     form = CommentForm(request.POST)
     context = {
         'author': author,
-        'post_count': post_count,
         'post': post,
         'comments': comments,
-        'author_posts_count': author_posts_count,
         'form': form,
         'title_post': 'Пост '
     }

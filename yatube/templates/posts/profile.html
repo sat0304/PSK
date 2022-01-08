@@ -4,9 +4,24 @@
   <title>{{ title_author }}</title>
 {% endblock title %}
 {% block content %}
-<div class="container py-5">
+<div class="mb-5">
   <h1>{{ title_author }}{{ auser }}</h1>
   <h3>{{ counted_posts}}{{ auser.posts.count }}</h3>
+  {% if following1 %}
+    <a
+      class="btn btn-lg btn-light"
+      href="{% url 'posts:profile_unfollow' auser.username %}" role="button"
+    >
+      Отписаться
+    </a>
+  {% else %}
+      <a
+        class="btn btn-lg btn-primary"
+        href="{% url 'posts:profile_follow' auser.username %}" role="button"
+      >
+        Подписаться
+      </a>
+   {% endif %}
       <ul>
         <li>
           Автор: {{ auser }}

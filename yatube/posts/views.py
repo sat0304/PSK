@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_page
 
-from .models import Comment, Group, Post, User
+from .models import Group, Follow, Post, User
 from .forms import CommentForm, PostForm
 
 
@@ -44,26 +44,31 @@ def group_posts(request, slug):
 
 def profile(request, username):
     """Cтраница  публикаций отдельного участника."""
+    auser = User.objects.get(username=username)
     template3 = 'posts/profile.html'
-    try:
-        auser = User.objects.get(username=username)
-        # post_count = Post.objects.filter(author=auser).count()
-        post_list = Post.objects.filter(author=auser).all()
-        paginator = Paginator(post_list, settings.NUM_OF_POSTS_ON_PAGE)
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
+    post_list = Post.objects.filter(author=auser).all()
+    paginator = Paginator(post_list, settings.NUM_OF_POSTS_ON_PAGE)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    if request.user.is_authenticated:
+        following1 = False
+        follow = Follow.objects.filter(user=request.user)
+        following_author = User.objects.filter(following__in=follow)
+        for name in following_author:
+            if username in name.username:
+                following1 = True
+            else:
+                following1 = False
         context = {
             'auser': auser,
             'page_obj': page_obj,
-            # 'post_count': post_count,
             'title_author': 'Все посты пользователя ',
-            'counted_posts': 'Всего постов: '
+            'counted_posts': 'Всего постов: ',
+            'following1': following1,
         }
         return render(request, template3, context)
-    except TypeError:
-        assert("Error in user profile page test_paginator")
-    except AttributeError:
-        assert("Error in user profile page utils")
+    else:
+        return redirect('posts:index')  
 
 
 def post_detail(request, post_id):
@@ -155,6 +160,7 @@ def post_edit(request, post_id):
     else:
         return redirect(template6, post_id)
 
+
 @login_required
 def add_comment(request, post_id):
     """Страница поста с комментариями."""
@@ -172,3 +178,49 @@ def add_comment(request, post_id):
         'form': form,
     }
     return render(request, template7, context)
+
+
+@login_required
+def follow_index(request):
+    """Страница постов по подписке на авторов."""
+    template8 = 'posts/follow.html'
+    follow = Follow.objects.filter(user=request.user)
+    following_author = User.objects.filter(following__in=follow)
+    post_list = Post.objects.filter(author__in=following_author)
+    paginator = Paginator(post_list, settings.NUM_OF_POSTS_ON_PAGE)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {
+        'page_obj': page_obj,
+        'title_follow': 'Последние обновления по подписке',
+    }
+    return render(request, template8, context)
+
+
+@login_required
+def profile_follow(request, username):
+    """Функция подписки на автора."""
+    template9 = 'posts:profile'
+    auser = get_object_or_404(User, username=username)
+    follow = Follow.objects.filter(
+        author=auser).filter(
+            user=request.user.is_authenticated).count()
+    if request.user != auser:
+        if follow == 0:
+            Follow.objects.create(
+                user=request.user,
+                author=auser)
+        return redirect(template9, username=username)
+    return redirect(template9, username=username)
+
+
+@login_required
+def profile_unfollow(request, username):
+    """Функция удаления подписки на автора."""
+    template9 = 'posts:profile'
+    author = get_object_or_404(User, username=username)
+    Follow.objects.filter(
+        user=request.user,
+        author=author
+    ).delete()
+    return redirect(template9, username=username)

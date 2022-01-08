@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% load thumbnail %}
 {% block title %}
-  <title>{{ title_index }}</title>
+  <title>{{ title_follow }}</title>
 {% endblock title %}
 {% block content %}
-  <h1>{{ title_index }}</h1>
+  <h1>{{ title_follow }}</h1>
   {% include '../includes/switcher.html' %}
   {% for post1 in page_obj %}
     <ul>

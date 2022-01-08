@@ -129,10 +129,8 @@ class PostPagesTests(TestCase):
                 'posts:post_detail', kwargs={'post_id': self.post.pk}
             )
         )
-        post_counted = Post.objects.filter(author=self.auth).count()
         context_fields = {
             'author': self.auth,
-            'post_count': post_counted,
             'title_post': 'Пост ',
         }
         for value, expected in context_fields.items():

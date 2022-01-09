@@ -65,7 +65,6 @@ def profile(request, username):
             'title_author': 'Все посты пользователя ',
             'counted_posts': 'Всего постов: ',
             'following1': following1,
-            'request.user': request.user,
         }
         return render(request, template3, context)
     else:

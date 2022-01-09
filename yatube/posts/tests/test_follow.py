@@ -98,12 +98,12 @@ class FollowTests(TestCase):
         author = self.auth
         response = self.authorized_client.get(
             reverse(
-                'posts:profile_follow',
-                kwargs={'username': author.username}
+                'posts:follow_index',
+                # kwargs={'username': author.username}
             )
         )
         self.assertTrue(self.user.follower.count() == 1)
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(Follow.objects.count(), self.follow_count + 1)
         self.assertTrue(Follow.objects.filter(
             user=self.user, author=author).exists()

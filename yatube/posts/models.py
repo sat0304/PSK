@@ -87,7 +87,8 @@ class Comment(models.Model):
         verbose_name_plural = 'Комментарии'
 
     def __str__(self):
-            return self.text
+        return self.text
+
 
 class Follow(models.Model):
     """Таблица, содержащая подписки пользователей на
@@ -96,14 +97,14 @@ class Follow(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name='follower',
-        verbose_name = 'Подписчик'
+        verbose_name='Подписчик'
     )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='following',
-        verbose_name = 'Hа автора'
+        verbose_name='Hа автора'
     )
 
     def __str__(self):
-            return f'Подписчик: {self.user}, на автора: {self.author}'
+        return f'Подписчик: {self.user}, на автора: {self.author}'

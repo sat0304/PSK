@@ -69,7 +69,7 @@ def profile(request, username):
         }
         return render(request, template3, context)
     else:
-        return redirect('posts:index')  
+        return redirect('posts:index')
 
 
 def post_detail(request, post_id):
@@ -94,7 +94,7 @@ def post_create(request):
     """Страница создания записи."""
     template5 = 'posts/create_post.html'
     form = PostForm(
-        request.POST or None, 
+        request.POST or None,
         files=request.FILES or None
     )
     if request.method == 'POST':

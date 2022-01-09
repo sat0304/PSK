@@ -10,11 +10,12 @@ def page_not_found(request, exception):
         'exception1': exception
     }
     return render(
-        request, 
-        template, 
+        request,
+        template,
         context,
         status=HTTPStatus.NOT_FOUND
     )
+
 
 def csrf_failure(request, reason=''):
     template = 'core/403csrf.html'
@@ -25,8 +26,10 @@ def csrf_failure(request, reason=''):
     return render(
         request,
         template,
-        context
+        context,
+        status=HTTPStatus.FORBIDDEN
     )
+
 
 def server_error(request):
     template = 'core/500.html'
@@ -35,6 +38,7 @@ def server_error(request):
         template,
         status=HTTPStatus.INTERNAL_SERVER_ERROR
     )
+
 
 def permission_denied(request, exception):
     template = 'core/403.html'

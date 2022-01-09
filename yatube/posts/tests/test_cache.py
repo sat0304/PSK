@@ -1,10 +1,7 @@
 import shutil
 import tempfile
 
-from http import HTTPStatus
-
 from django.core.cache import cache
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.conf import settings
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
@@ -37,7 +34,7 @@ class CacheTests(TestCase):
         super().tearDownClass()
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
         cache.clear()
-        
+
     def setUp(self):
         cache.clear()
         self.authorized_client.force_login(self.auth)

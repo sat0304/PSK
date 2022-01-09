@@ -4,11 +4,8 @@ import tempfile
 from http import HTTPStatus
 
 from django.core.cache import cache
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.conf import settings
 from django.test import Client, TestCase, override_settings
-from django.urls import reverse
-from django import forms
 
 from posts.models import Group, Post, User
 

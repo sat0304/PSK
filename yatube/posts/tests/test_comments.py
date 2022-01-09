@@ -31,13 +31,13 @@ class PostCreateFormTests(TestCase):
             text='Тестовый текст',
             group=cls.group,
         )
-        cls.small_gif = (            
-             b'\x47\x49\x46\x38\x39\x61\x02\x00'
-             b'\x01\x00\x80\x00\x00\x00\x00\x00'
-             b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
-             b'\x00\x00\x00\x2C\x00\x00\x00\x00'
-             b'\x02\x00\x01\x00\x00\x02\x02\x0C'
-             b'\x0A\x00\x3B'
+        cls.small_gif = (
+            b'\x47\x49\x46\x38\x39\x61\x02\x00'
+            b'\x01\x00\x80\x00\x00\x00\x00\x00'
+            b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
+            b'\x00\x00\x00\x2C\x00\x00\x00\x00'
+            b'\x02\x00\x01\x00\x00\x02\x02\x0C'
+            b'\x0A\x00\x3B'
         )
         cls.uploaded = SimpleUploadedFile(
             name='small.gif',
@@ -49,13 +49,13 @@ class PostCreateFormTests(TestCase):
             'group': cls.group.pk,
             'image': cls.uploaded,
         }
-        
+
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
         cache.clear()
-        
+
     def setUp(self):
         """Клиент неавторизован."""
         self.guest_client = Client()
@@ -83,7 +83,7 @@ class PostCreateFormTests(TestCase):
         self.assertEqual(comment.post_id, post.id)
         self.assertRedirects(
             response, reverse('posts:post_detail', args={post.id}))
-    
+
     def test_nonauthorized_user_create_comment(self):
         """Неавторизованный пользователь не может создать комментарий"""
         comments_count = Comment.objects.count()

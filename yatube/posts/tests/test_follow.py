@@ -4,11 +4,9 @@ import tempfile
 from http import HTTPStatus
 
 from django.core.cache import cache
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.conf import settings
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
-from django import forms
 
 from posts.models import Group, Follow, Post, User
 
@@ -59,7 +57,7 @@ class FollowTests(TestCase):
         self.authorized_author = Client()
         self.authorized_author.force_login(self.auth)
 
-    def test_authorized_user_follow (self):
+    def test_authorized_user_follow(self):
         """Клиент авторизован и может подписываться на автора."""
         author = self.auth
         response = self.authorized_client.get(
@@ -74,7 +72,7 @@ class FollowTests(TestCase):
             user=self.user, author=author).exists()
         )
 
-    def test_authorized_user_following_exists (self):
+    def test_authorized_user_following_exists(self):
         """Клиент авторизован и подписка на автора появилась в ленте."""
         author = self.auth
         response = self.authorized_client.get(reverse('posts:follow_index'))
@@ -84,8 +82,8 @@ class FollowTests(TestCase):
             user=self.user, author=author).exists()
         )
 
-    def test_authorized_user_following_not_exists (self):
-        """Клиент авторизован но подписка на 
+    def test_authorized_user_following_not_exists(self):
+        """Клиент авторизован но подписка на
         автора не появилась в ленте."""
         author = self.auth
         response = self.authorized_client2.get(reverse('posts:follow_index'))
@@ -95,7 +93,7 @@ class FollowTests(TestCase):
             user=self.user2, author=author).exists()
         )
 
-    def test_authorized_user_unfollow (self):
+    def test_authorized_user_unfollow(self):
         """Клиент авторизован и может отписаться от автора."""
         author = self.auth
         response = self.authorized_client.get(

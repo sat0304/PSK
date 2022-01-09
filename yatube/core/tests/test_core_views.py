@@ -34,7 +34,7 @@ class AboutPagesTests(TestCase):
         """Гость: URL-адрес использует соответствующий шаблон."""
         templates_page_names = {
             'core/404.html':
-                HTTPStatus.NOT_FOUND,    
+                HTTPStatus.NOT_FOUND,
         }
         for template, reverse_name in templates_page_names.items():
             with self.subTest(template=template):

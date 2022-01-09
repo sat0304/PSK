@@ -115,7 +115,7 @@ class Follow(models.Model):
             models.CheckConstraint(
                 check=~models.Q(
                     user=models.F('author')), name='user_not_author'
-                )
+            )
         ]
 
     def __str__(self):

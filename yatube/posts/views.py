@@ -214,6 +214,8 @@ def profile_follow(request, username):
             return redirect(template9, username=username)
         else:
             return redirect(template9, username=username)
+    else:
+        return redirect(template9, username=username)
 
 
 @login_required

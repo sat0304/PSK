@@ -1,6 +1,6 @@
 from http import HTTPStatus
 
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 
 
 def page_not_found(request, exception):
@@ -52,3 +52,13 @@ def permission_denied(request, exception):
         context,
         status=HTTPStatus.FORBIDDEN
     )
+    
+def handler403(request, *args, **argv):
+    print('Handler 403 was called!')
+    u = request.user
+    params = {
+        'user': u,
+    }
+    response = render_to_response('core/403.html', params)
+    response.status_code = HTTPStatus.FORBIDDEN
+    return response

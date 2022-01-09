@@ -35,6 +35,11 @@ class AboutPagesTests(TestCase):
         templates_page_names = {
             'core/404.html':
                 HTTPStatus.NOT_FOUND,
+            'core/404.html' or 'core/403.html':
+                HTTPStatus.FORBIDDEN,
+            # 'core/403csrf.html': HTTPStatus.FORBIDDEN,
+            'core/404.html' or 'core/500.html':
+                HTTPStatus.INTERNAL_SERVER_ERROR
         }
         for template, reverse_name in templates_page_names.items():
             with self.subTest(template=template):
@@ -57,9 +62,6 @@ class AboutPagesTests(TestCase):
         """Автор: URL-адрес использует соответствующий шаблон."""
         templates_page_names = {
             'core/404.html': HTTPStatus.NOT_FOUND,
-            # 'core/403.html': HTTPStatus.FORBIDDEN,
-            # 'core/403csrf.html': HTTPStatus.FORBIDDEN,
-            # 'core/500.html': HTTPStatus.INTERNAL_SERVER_ERROR
         }
         for template, reverse_name in templates_page_names.items():
             with self.subTest(template=template):

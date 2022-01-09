@@ -107,7 +107,9 @@ class Follow(models.Model):
     )
 
     class Meta:
-        unique_together = ('user', 'author')
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'
+        # unique_together = ('user', 'author')
 
     def __str__(self):
         return f'Подписчик: {self.user}, на автора: {self.author}'

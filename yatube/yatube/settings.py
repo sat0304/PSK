@@ -19,7 +19,7 @@ SECURITY WARNING: keep the secret key used in production secret!."""
 SECRET_KEY = 'zezb)8y%bik%u71pes!j#^5l(@g7o0b4y*jx#a4uwjcm!51ex7'
 
 """SECURITY WARNING: don't run with debug turned on in production!."""
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['testserver', '127.0.0.1', 'localhost', '[::1]']
 

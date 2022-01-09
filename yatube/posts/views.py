@@ -45,13 +45,13 @@ def group_posts(request, slug):
 def profile(request, username):
     """Cтраница  публикаций отдельного участника."""
     auser = User.objects.get(username=username)
+    following1 = None
     template3 = 'posts/profile.html'
     post_list = Post.objects.filter(author=auser).all()
     paginator = Paginator(post_list, settings.NUM_OF_POSTS_ON_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     if request.user.is_authenticated:
-        following1 = False
         follow = Follow.objects.filter(user=request.user)
         following_author = User.objects.filter(following__in=follow)
         for name in following_author:

@@ -177,6 +177,7 @@ def add_comment(request, post_id):
     return render(request, template7, context)
 
 
+@login_required
 def follow_index(request):
     """Страница постов по подписке на авторов."""
     template8 = 'posts/follow.html'

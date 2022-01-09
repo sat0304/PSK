@@ -202,7 +202,7 @@ def follow_index(request):
 @login_required
 def profile_follow(request, username):
     """Функция подписки на автора."""
-    template9 = 'posts:profile'
+    template9 = 'posts/profile.html'
     auser = get_object_or_404(User, username=username)
     follow = Follow.objects.filter(
         author=auser).count()

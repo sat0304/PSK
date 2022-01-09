@@ -52,7 +52,8 @@ def permission_denied(request, exception):
         context,
         status=HTTPStatus.FORBIDDEN
     )
-    
+
+
 def handler403(request, *args, **argv):
     print('Handler 403 was called!')
     u = request.user

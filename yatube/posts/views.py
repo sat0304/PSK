@@ -205,15 +205,15 @@ def profile_follow(request, username):
     template9 = 'posts:profile'
     auser = get_object_or_404(User, username=username)
     follow = Follow.objects.filter(
-        author=auser).filter(
-            user=request.user.is_authenticated).count()
+        author=auser).count()
     if request.user != auser:
         if follow == 0:
             Follow.objects.create(
                 user=request.user,
                 author=auser)
-        return redirect(template9, username=username)
-    return redirect(template9, username=username)
+            return redirect(template9, username=username)
+        else:
+            return redirect(template9, username=username)
 
 
 @login_required

@@ -93,22 +93,6 @@ class FollowTests(TestCase):
             user=self.user2, author=author).exists()
         )
 
-    def test_authorized_user_follow_once(self):
-        """Клиент авторизован и может подписаться один раз."""
-        author = self.auth
-        response = self.authorized_client.get(
-            reverse(
-                'posts:follow_index',
-                # kwargs={'username': author.username}
-            )
-        )
-        self.assertTrue(self.user.follower.count() == 1)
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(Follow.objects.count(), self.follow_count + 1)
-        self.assertTrue(Follow.objects.filter(
-            user=self.user, author=author).exists()
-        )
-
     def test_authorized_user_unfollow(self):
         """Клиент авторизован и может отписаться от автора."""
         author = self.auth
@@ -121,5 +105,25 @@ class FollowTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(Follow.objects.count(), self.follow_count)
         self.assertFalse(Follow.objects.filter(
+            user=self.user, author=author).exists()
+        )
+
+    def test_authorized_user_follow_once(self):
+        """Клиент авторизован и может подписаться один раз."""
+        author = self.auth
+        # follow = Follow.objects.create(
+        # user=self.user,
+        # author=self.auth,
+        #  )
+        response = self.authorized_client.get(
+            reverse(
+                'posts:profile_follow',
+                kwargs={'username': author.username}
+            )
+        )
+        self.assertTrue(self.user.follower.count() == 1)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(Follow.objects.count(), self.follow_count + 1)
+        self.assertTrue(Follow.objects.filter(
             user=self.user, author=author).exists()
         )

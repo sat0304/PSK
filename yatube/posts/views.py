@@ -68,7 +68,13 @@ def profile(request, username):
         }
         return render(request, template3, context)
     else:
-        return redirect('posts:index')
+        context = {
+            'auser': auser,
+            'page_obj': page_obj,
+            'title_author': 'Все посты пользователя ',
+            'counted_posts': 'Всего постов: ',
+        }
+        return render(request, template3, context)
 
 
 def post_detail(request, post_id):

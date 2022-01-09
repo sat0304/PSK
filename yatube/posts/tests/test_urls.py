@@ -84,7 +84,7 @@ class PostURLTests(TestCase):
         templates_url_names = {
             settings.HOME_PAGE: HTTPStatus.OK,
             f'{settings.GROUP}{self.group.slug}/': HTTPStatus.OK,
-            f'{settings.PROFILE}{self.post.author}/': HTTPStatus.FOUND,
+            f'{settings.PROFILE}{self.post.author}/': HTTPStatus.OK,
             f'{settings.POSTS}{self.post.pk}/': HTTPStatus.OK,
             f'{settings.POSTS}{self.post.pk}{self.edit}': HTTPStatus.FOUND,
             f'{settings.CREATE}': HTTPStatus.FOUND,

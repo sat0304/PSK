@@ -93,6 +93,31 @@ class FollowTests(TestCase):
             user=self.user2, author=author).exists()
         )
 
+    def test_authorized_user_follow_once(self):
+        """Клиент авторизован и может подписаться один раз."""
+        author = self.auth
+        follow2 = Follow.objects.create(
+            user=self.user,
+            author=self.auth,
+        )
+        follow3 = Follow.objects.create(
+            user=self.user,
+            author=self.auth,
+        )
+        response = self.authorized_client.get(
+            reverse(
+                'posts:profile_follow',
+                kwargs={'username': author.username}
+            )
+        )
+        self.assertTrue(follow2)
+        self.assertTrue(follow3)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(Follow.objects.count(), self.follow_count + 3)
+        self.assertTrue(Follow.objects.filter(
+            user=self.user, author=author).exists()
+        )
+
     def test_authorized_user_unfollow(self):
         """Клиент авторизован и может отписаться от автора."""
         author = self.auth

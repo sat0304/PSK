@@ -1,3 +1,25 @@
-# hw05_final
+# # Yatube - social network service
 
-[![CI](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml/badge.svg?branch=master)](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml)
+### Описание
+Благодаря этому проекту будет создана cоциальная сеть блогеров, где каждый участник может вести ежедневник, наполненный философией добра и позитивных эмоций.
+Любой человек сможет прочитать записи других участников и оставить комментарий. Нецензурные слова и сообщения рекламного характера будут удаляться администратором сайта.
+### Технологии
+```
+Python 3.10
+Django 2.2.16
+Pillow 8.3.1
+requests 2.26.0
+sorl-thumbnail 12.7.0
+```
+### Запуск проекта в dev-режиме
+- Установите и активируйте виртуальное окружение
+- Установите зависимости из файла requirements.txt
+```
+pip install -r requirements.txt
+```
+- В папке с файлом manage.py выполните команду:
+```
+python manage.py runserver
+```
+### Автор
+С.А.Токарев
